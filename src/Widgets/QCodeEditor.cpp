@@ -28,6 +28,7 @@
 #include <KGL/Widgets/QCodeEditorLineWidget.hpp>
 #include <KGL/Widgets/QCodeEditorHighlighter.hpp>
 #include <KGL/Design/QCodeEditorSheets.hpp>
+#include <KGL/Widgets/QCodeEditorTextFinder.hpp>
 #include <QCompleter>
 
 
@@ -84,6 +85,8 @@ namespace kgl {
         m_LineWidget = new QCodeEditorLineWidget(this);
         updateLineColumn(0);
 
+        // Constructs textFinder widget
+        m_TextFinder = new QCodeEditorTextFinder(this);
 
         // Connects signals with slots
         connect(m_AutoComplete, SIGNAL(activated(QString)), this, SLOT(completeWord(QString)));
@@ -291,5 +294,14 @@ namespace kgl {
                     * minDigits
                     + pad.left()
                     + pad.right();
+    }
+
+    ///
+    ///  @fn        showTextFinder
+    ///  @author    Marek Bula
+    ///  @date      February 16th, 2018
+    ///
+    void QCodeEditor::showTextFinder(){
+        m_TextFinder->show();
     }
 }
