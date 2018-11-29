@@ -13,7 +13,6 @@
 #include <QLabel>
 #include <QObject>
 #include <QList>
-#include <QScrollBar>
 
 
 namespace kgl {
@@ -25,7 +24,7 @@ namespace kgl {
     ///  @class     QCodeEditorTextFinder
     ///  @brief     Simple 'search and replace' dialog window.
     ///
-    class KGL_API QCodeEditorTextFinder : public QWidget{
+    class KGL_API QCodeEditorTextFinder : public QWidget {
     Q_OBJECT
     public:
 
@@ -42,10 +41,31 @@ namespace kgl {
         ~QCodeEditorTextFinder();
 
         ///
-        ///  @fn    show
-        ///  @brief Shows 'search and replace' dialog window.
+        ///  @fn    setEmbeded
+        ///  @brief Specifies if dialog should be embeded inside the code editor.
         ///
-        void show();
+        void setEmbeded(bool value);
+
+        ///
+        ///  @fn    isEmbeded
+        ///  @brief Queries if dialog is embeded inside the code editor.
+        ///
+        bool isEmbeded();
+
+        ///
+        ///  @fn      sizeHint
+        ///  @brief   Reserves space for the find&replace dialog.
+        ///  @returns the desired size.
+        ///
+        QSize sizeHint() const Q_DECL_OVERRIDE;
+
+    public slots:
+
+        ///
+        ///  @fn    setVisible
+        ///  @brief Shows or hides 'search and replace' dialog.
+        ///
+        void setVisible(bool value) Q_DECL_OVERRIDE;
 
     private slots:
 
@@ -137,6 +157,7 @@ namespace kgl {
         int m_CurrentSelectionIdx;                      ///< index of selection that is currently selected
         bool m_CurrentSelectionRemoved;                 ///< indicates whether current selection has been removed
         int m_FoundCount;                               ///< number of occurences of searched phrase
+        bool m_IsEmbeded;
 
     };
 

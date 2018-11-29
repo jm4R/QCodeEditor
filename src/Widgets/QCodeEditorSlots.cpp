@@ -37,7 +37,7 @@ namespace kgl {
     ///
     void QCodeEditor::updateLineColumn(int lineCount) {
         Q_UNUSED(lineCount);
-        setViewportMargins(lineColumnWidth(), 0, 0, 0);
+        setViewportMargins(lineColumnWidth(), 0, 0, embededTextFinderHeight());
     }
 
     ///
@@ -55,9 +55,9 @@ namespace kgl {
             }
 
             // Changes margins, line number digits may have changed
-            setViewportMargins(lineColumnWidth(), 0, 0, 0);
+            setViewportMargins(lineColumnWidth(), 0, 0, embededTextFinderHeight());
         } else {
-            setViewportMargins(0, 0, 0, 0);
+            setViewportMargins(0, 0, 0, embededTextFinderHeight());
         }
     }
 

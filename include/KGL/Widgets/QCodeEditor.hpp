@@ -56,7 +56,10 @@ namespace kgl {
     ///  @brief     Highlights and auto-completes code.
     ///
     class KGL_API QCodeEditor : public QPlainTextEdit {
-    Q_OBJECT
+
+        Q_OBJECT
+        Q_PROPERTY(bool textFinderEmbeded READ isTextFinderEmbeded WRITE setTextFinderEmbeded)
+
     public:
 
 
@@ -179,7 +182,7 @@ namespace kgl {
         ///
         ///  @fn      keywordsExist
         ///  @brief   Determines whether the given keyword exists.
-        ///  @param   keyword Keyword to check
+        ///  @param   keyword Keyword to check.
         ///  @returns true if the keyword exísts.
         ///
         bool keywordExists(const QString &keyword);
@@ -201,10 +204,37 @@ namespace kgl {
         int lineColumnWidth() const;
 
         ///
+        ///  @fn      embededTextFinderHeight
+        ///  @brief   Retrieves the height of the Find and Replace Dialog.
+        ///  @returns the height of the Find and Replace Dialog.
+        ///
+        int embededTextFinderHeight() const;
+
+        ///
         ///  @fn      showTextFinder
-        ///  @brief   Shows Find and Replace Dialog window.
+        ///  @brief   Shows Find and Replace Dialog.
         ///
         void showTextFinder();
+
+        ///
+        ///  @fn      toggleTextFinder
+        ///  @brief   Shows/Hides Find and Replace Dialog depending on current visibility.
+        ///
+        void toggleTextFinder();
+
+        ///
+        ///  @fn      setTextFinderEmbeded
+        ///  @brief   Specifies if Find and Replace Dialog should be embeded inside the code editor.
+        ///  @param   value The new value.
+        ///
+        void setTextFinderEmbeded(bool value);
+
+        ///
+        ///  @fn      isTextFinderEmbeded
+        ///  @brief   Queries if Find and Replace Dialog is embeded inside the code editor.
+        ///  @returns true if Find and Replace Dialog is embeded inside the code editor.
+        ///
+        bool isTextFinderEmbeded() const;
 
 
     protected:

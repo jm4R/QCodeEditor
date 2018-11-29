@@ -83,10 +83,11 @@ namespace kgl {
 
         // Constructs the line widget
         m_LineWidget = new QCodeEditorLineWidget(this);
-        updateLineColumn(0);
 
         // Constructs textFinder widget
         m_TextFinder = new QCodeEditorTextFinder(this);
+
+        updateLineColumn(0);
 
         // Connects signals with slots
         connect(m_AutoComplete, SIGNAL(activated(QString)), this, SLOT(completeWord(QString)));
@@ -289,7 +290,19 @@ namespace kgl {
         return fontMetrics().width('0')
                     * minDigits
                     + pad.left()
-                    + pad.right();
+                + pad.right();
+    }
+
+    ///
+    ///  @fn        embededTextFinderHeight
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    int QCodeEditor::embededTextFinderHeight() const
+    {
+        if (!isTextFinderEmbeded() || !m_TextFinder->isVisible())
+            return 0;
+        return design().textFinderSize().height();
     }
 
     ///
@@ -299,5 +312,37 @@ namespace kgl {
     ///
     void QCodeEditor::showTextFinder(){
         m_TextFinder->show();
+        updateLineColumn(0);
+    }
+
+    ///
+    ///  @fn        toggleTextFinder
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    void QCodeEditor::toggleTextFinder()
+    {
+        m_TextFinder->setVisible(!m_TextFinder->isVisible());
+        updateLineColumn(0);
+    }
+
+    ///
+    ///  @fn        showTextFinder
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    void QCodeEditor::setTextFinderEmbeded(bool value)
+    {
+        m_TextFinder->setEmbeded(value);
+    }
+
+    ///
+    ///  @fn        isTextFinderEmbeded
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    bool QCodeEditor::isTextFinderEmbeded() const
+    {
+        return m_TextFinder->isEmbeded();
     }
 }

@@ -1,5 +1,7 @@
 #include <KGL/Widgets/QCodeEditorTextFinder.hpp>
 
+#include <QScrollBar>
+
 namespace kgl {
 
     ///
@@ -10,9 +12,11 @@ namespace kgl {
         : QWidget(parent),
           m_Parent(parent)  {
 
-        m_FindDialog = new QDialog(this);
+        QWidget::setVisible(false);
+
+        m_FindDialog = new QDialog(parent);
         m_FindDialog->setWindowTitle("Find and replace");
-        m_FindDialog->resize(550,100);
+        m_FindDialog->resize(parent->design().textFinderSize());
 
         m_ReplaceButton = new QPushButton("Replace");
         m_ReplaceAllButton = new QPushButton("Replace all");
@@ -49,6 +53,12 @@ namespace kgl {
         m_CurrentSelectionIdx = 0;
         m_CurrentSelectionRemoved = false;
         m_FoundCount = 0;
+
+        QPalette palette;
+        palette.setColor(QPalette::Base, parent->design().textFinderBackColor());
+        setPalette(palette);
+
+        setEmbeded(true);
     }
 
     ///
@@ -56,15 +66,53 @@ namespace kgl {
     ///  @author    Marek Bula
     ///
     QCodeEditorTextFinder::~QCodeEditorTextFinder() {
-        delete m_FindDialog;
     }
 
     ///
-    ///  @fn        show
-    ///  @author    Marek Bula
+    ///  @fn        setEmbeded
+    ///  @author    Mariusz Jaskolka
     ///
-    void QCodeEditorTextFinder::show() {
-        m_FindDialog->show();
+    void QCodeEditorTextFinder::setEmbeded(bool value) {
+        if(m_IsEmbeded == value)
+            return;
+        m_IsEmbeded = value;
+        bool hidden = isHidden() && m_FindDialog->isHidden();
+
+        if (value) {
+            setLayout(m_FindDialog->layout());
+        } else {
+            m_FindDialog->setLayout(layout());
+        }
+
+        if (!hidden)
+            show();
+    }
+
+    bool QCodeEditorTextFinder::isEmbeded()
+    {
+        return m_IsEmbeded;
+    }
+
+    ///
+    ///  @fn        sizeHint
+    ///  @author    Mariusz Jaskolka
+    ///
+    QSize QCodeEditorTextFinder::sizeHint() const {
+        const QSize size = m_Parent->design().textFinderSize();
+        if(!m_IsEmbeded)
+            return size;
+        else
+            return QSize(m_Parent->contentsRect().width(), size.height());
+    }
+
+    void QCodeEditorTextFinder::setVisible(bool value)
+    {
+        if (m_IsEmbeded)
+            QWidget::setVisible(value);
+        else
+            m_FindDialog->setVisible(value);
+
+        m_TextToFind->setFocus();
         onTextToFindChanged(m_TextToFind->text());
     }
 

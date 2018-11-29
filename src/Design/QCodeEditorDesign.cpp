@@ -50,9 +50,11 @@ namespace kgl {
           m_IntelliBoxSelectionBorderColor(0xff90c8f6),
           m_IntelliBoxPressBackColor(0xff90c8f6),
           m_IntelliBoxPressBorderColor(0xff60b0f9),
+          m_TextFinderBackColor(0xffe9e9e9),
           m_EditorBorder(QMargins(0,0,0,0)),
           m_IntelliBoxBorder(QMargins(1,1,1,1)),
           m_PopupSize(200, 200),
+          m_TextFinderSize(400, 100),
           m_HasLineColumn(true),
           m_ShowFocusRect(false),
           m_FirstLineOne(true) {
@@ -91,11 +93,13 @@ namespace kgl {
           m_IntelliBoxSelectionBorderColor(design.intelliBoxSelectionBorderColor()),
           m_IntelliBoxPressBackColor(design.intelliBoxPressBackColor()),
           m_IntelliBoxPressBorderColor(design.intelliBoxPressBorderColor()),
+          m_TextFinderBackColor(design.textFinderBackColor()),
           m_EditorFont(design.editorFont()),
           m_IntelliBoxFont(design.intelliBoxFont()),
           m_EditorBorder(design.editorBorder()),
           m_IntelliBoxBorder(design.intelliBoxBorder()),
           m_PopupSize(design.popupSize()),
+          m_TextFinderSize(design.textFinderSize()),
           m_HasLineColumn(design.isLineColumnVisible()),
           m_ShowFocusRect(design.hasFocusRect()) {
     }
@@ -159,6 +163,8 @@ namespace kgl {
                 m_IntelliBoxPressBackColor = readColor(&xmlReader);
             } else if (name == "intelliboxpressbordercolor") {
                 m_IntelliBoxPressBorderColor = readColor(&xmlReader);
+            } else if (name == "textfinderbackcolor") {
+                m_TextFinderBackColor = readColor(&xmlReader);
             } else if (name == "editorborder") {
                 m_EditorBorder = readMargin(&xmlReader);
             } else if (name == "intelliboxborder") {
@@ -167,6 +173,8 @@ namespace kgl {
                 m_LineColumnPadding = QLineColumnPadding(readSize(&xmlReader));
             } else if (name == "popupsize") {
                 m_PopupSize = readSize(&xmlReader);
+            } else if (name == "textfindersize") {
+                m_TextFinderSize = readSize(&xmlReader);
             } else if (name == "haslinecolumn") {
                 m_HasLineColumn = readBool(&xmlReader);
             } else if (name == "showfocusrect") {
@@ -322,6 +330,15 @@ namespace kgl {
     }
 
     ///
+    ///  @fn        textFinderBackColor
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    const QColor &QCodeEditorDesign::textFinderBackColor() const {
+        return m_TextFinderBackColor;
+    }
+
+    ///
     ///  @fn        editorFont
     ///  @author    Nicolas Kogler
     ///  @date      October 5th, 2016
@@ -373,6 +390,15 @@ namespace kgl {
     ///
     const QSize &QCodeEditorDesign::popupSize() const {
         return m_PopupSize;
+    }
+
+    ///
+    ///  @fn        textFinderSize
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    const QSize &QCodeEditorDesign::textFinderSize() const {
+        return m_TextFinderSize;
     }
 
     ///
@@ -530,6 +556,15 @@ namespace kgl {
     }
 
     ///
+    ///  @fn        setTextFinderBackColor
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    void QCodeEditorDesign::setTextFinderBackColor(const QColor &color) {
+        m_TextFinderBackColor = color;
+    }
+
+    ///
     ///  @fn        setEditorFont
     ///  @author    Nicolas Kogler
     ///  @date      October 5th, 2016
@@ -572,6 +607,15 @@ namespace kgl {
     ///
     void QCodeEditorDesign::setLineColumnPadding(const QLineColumnPadding &padding) {
         m_LineColumnPadding = padding;
+    }
+
+    ///
+    ///  @fn        setTextFinderSize
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 1st, 2018
+    ///
+    void QCodeEditorDesign::setTextFinderSize(const QSize &size) {
+        m_TextFinderSize = size;
     }
 
     ///

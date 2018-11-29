@@ -171,6 +171,13 @@ namespace kgl {
         const QColor &intelliBoxPressBorderColor() const;
 
         ///
+        ///  @fn      textFinderBackColor : const
+        ///  @brief   Retrieves the back color of the Find and Replace Dialog.
+        ///  @returns the back color of the Find and Replace Dialog.
+        ///
+        const QColor &textFinderBackColor() const;
+
+        ///
         ///  @fn      editorFont : const
         ///  @brief   Retrieves the font of the default editor text.
         ///  @returns a pointer to the editor font.
@@ -211,6 +218,13 @@ namespace kgl {
         ///  @returns a ref to a QSize instance.
         ///
         const QSize &popupSize() const;
+
+        ///
+        ///  @fn      textFinderSize : const
+        ///  @brief   Retrieves the size of the Find and Replace Dialog. If the dialog is embeded, only height is being used.
+        ///  @returns the back color of the Find and Replace Dialog.
+        ///
+        const QSize &textFinderSize() const;
 
         ///
         ///  @fn      isLineColumnVisible : const
@@ -333,6 +347,13 @@ namespace kgl {
         void setIntelliBoxPressBorderColor(const QColor &color);
 
         ///
+        ///  @fn    setTextFinderBackColor
+        ///  @brief Specifies the back color of the Find and Replace Dialog.
+        ///  @param color Color to use as the dialog background
+        ///
+        void setTextFinderBackColor(const QColor &color);
+
+        ///
         ///  @fn    setEditorFont
         ///  @brief Specifies the default font for editor-text.
         ///  @param font Pointer to font to use for default text
@@ -375,6 +396,13 @@ namespace kgl {
         void setPopupSize(const QSize &size);
 
         ///
+        ///  @fn    setTextFinderSize
+        ///  @brief Specifies the size of the Find and Replace Dialog. If the dialog is embeded, only height is being used.
+        ///  @param size Ref to instance of QSize
+        ///
+        void setTextFinderSize(const QSize &size);
+
+        ///
         ///  @fn    setLineColumnVisible
         ///  @brief Determines the visibility of the line column.
         ///  @param visible True if should be drawn, otherwise false
@@ -415,12 +443,14 @@ namespace kgl {
         QColor m_IntelliBoxSelectionBorderColor;
         QColor m_IntelliBoxPressBackColor;
         QColor m_IntelliBoxPressBorderColor;
+        QColor m_TextFinderBackColor;
         QFont m_EditorFont;
         QFont m_IntelliBoxFont;
         QMargins m_EditorBorder;
         QMargins m_IntelliBoxBorder;
         QLineColumnPadding m_LineColumnPadding;
         QSize m_PopupSize;
+        QSize m_TextFinderSize;
         bool m_HasLineColumn;
         bool m_ShowFocusRect;
         bool m_FirstLineOne;

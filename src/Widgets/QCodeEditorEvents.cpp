@@ -25,6 +25,7 @@
 //
 #include <KGL/Widgets/QCodeEditor.hpp>
 #include <KGL/Widgets/QCodeEditorLineWidget.hpp>
+#include <KGL/Widgets/QCodeEditorTextFinder.hpp>
 #include <QAbstractItemView>
 #include <QScrollBar>
 #include <QCompleter>
@@ -274,18 +275,29 @@ namespace kgl {
     void QCodeEditor::resizeEvent(QResizeEvent *event) {
         QPlainTextEdit::resizeEvent(event);
 
+        QRect content = contentsRect();
+        int leftMargin;
+        int textFinderHeight = embededTextFinderHeight();
         // Makes space for the line widget
         if (m_Design.isLineColumnVisible()) {
-            QRect content = contentsRect();
-            setViewportMargins(lineColumnWidth(), 0, 0, 0);
+            leftMargin = lineColumnWidth();
             m_LineWidget->setGeometry(
                         content.left(),
                         content.top(),
                         lineColumnWidth(),
-                        content.height());
+                        content.height() - textFinderHeight);
         } else {
-            setViewportMargins(0, 0, 0, 0);
+            leftMargin = 0;
             m_LineWidget->setGeometry(0, 0, 0, 0);
+        }
+
+        setViewportMargins(leftMargin, 0, 0, textFinderHeight);
+
+        if (isTextFinderEmbeded()) {
+            m_TextFinder->setGeometry(content.left(),
+                                      content.bottom() - textFinderHeight,
+                                      content.width(),
+                                      textFinderHeight);
         }
     }
 }
