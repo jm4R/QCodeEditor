@@ -66,7 +66,7 @@ namespace kgl {
         m_Popup = new QCodeEditorPopup(this);
 
         // Constructs the intelliBox's completer
-        m_AutoComplete = new QCompleter;
+        m_AutoComplete = new QCompleter(this);
         m_AutoComplete->setWidget(this);
         m_AutoComplete->setCompletionMode(QCompleter::PopupCompletion);
         m_AutoComplete->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
@@ -76,7 +76,7 @@ namespace kgl {
         m_SourceModel = new QStandardItemModel;
 
         // Constructs the sorting proxy model
-        m_RuleFilter = new QSortFilterProxyModel;
+        m_RuleFilter = new QSortFilterProxyModel(this);
         m_RuleFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
         m_RuleFilter->setDynamicSortFilter(false);
 
@@ -100,10 +100,6 @@ namespace kgl {
     ///  @author    Nicolas Kogler
     ///
     QCodeEditor::~QCodeEditor() {
-        delete m_Highlighter;
-        delete m_LineWidget;
-        delete m_RuleFilter;
-        delete m_AutoComplete;
     }
 
 
