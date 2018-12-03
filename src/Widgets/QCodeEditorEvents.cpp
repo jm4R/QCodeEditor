@@ -272,7 +272,7 @@ namespace kgl {
     ///  @date      October 5th, 2016
     ///
     void QCodeEditor::resizeEvent(QResizeEvent *event) {
-        Q_UNUSED(event);
+        QPlainTextEdit::resizeEvent(event);
 
         // Makes space for the line widget
         if (m_Design.isLineColumnVisible()) {
