@@ -77,6 +77,30 @@ namespace kgl {
         "}"
     };
 
+    ///
+    ///  @file      QCodeEditorSheets.hpp
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 5th, 2018
+    ///  @def       CSS_TextFinder
+    ///  @brief     Stylesheet for the Find and Replace widget.
+    ///
+    const char CSS_TextFinder[] = {
+        "* {"
+        "   background-color: #%widget;"
+        "   color: #%text;"
+        "}"
+        "QAbstractButton {"
+        "   background-color: #%widget;"
+        "   color: #%text;"
+        "}"
+        "QAbstractButton:hover:pressed {"
+        "   background-color: #%activeWidget;"
+        "}"
+        /*"QAbstractButton:disabled {"
+        "   background-color: transparent;"
+        "}"*/
+    };
+
 
     ///
     ///  @file      QCodeEditorSheets.hpp
@@ -120,6 +144,24 @@ namespace kgl {
         ///  @returns the style-sheet for mouse-presses.
         ///
         static QString press(const QCodeEditorDesign &design);
+    };
+
+    ///
+    ///  @file      QCodeEditorSheets.hpp
+    ///  @author    Mariusz Jaskolka
+    ///  @date      December 5th, 2018
+    ///  @class     QCodeEditorTextFinderSheets
+    ///
+    class QCodeEditorTextFinderSheets {
+    public:
+
+        ///
+        ///  @fn      sheet
+        ///  @brief   Retrieves the style-sheet for the widget.
+        ///  @param   design Current code editor design
+        ///  @returns the style-sheet for the widget.
+        ///
+        static QString sheet(const QCodeEditorDesign &design);
     };
 }
 

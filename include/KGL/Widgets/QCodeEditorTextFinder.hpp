@@ -53,6 +53,12 @@ namespace kgl {
         bool isEmbeded();
 
         ///
+        ///  @fn    setDesign
+        ///  @brief Apply the visual properties of parent QCodeEditor.
+        ///
+        void updateDesign();
+
+        ///
         ///  @fn      sizeHint
         ///  @brief   Reserves space for the find&replace dialog.
         ///  @returns the desired size.
@@ -63,7 +69,7 @@ namespace kgl {
 
         ///
         ///  @fn    setVisible
-        ///  @brief Shows or hides 'search and replace' dialog.
+        ///  @brief Shows or hides 'find and replace' dialog.
         ///
         void setVisible(bool value) Q_DECL_OVERRIDE;
 
@@ -141,7 +147,10 @@ namespace kgl {
         ///
         void updateInfoLabel();
 
+        void updateView();
+
         QDialog* m_FindDialog;
+        QWidget* m_SpacerWidget;
         QCodeEditor *m_Parent;
         QGridLayout *m_DialogLayout;
         QPushButton *m_ReplaceButton;

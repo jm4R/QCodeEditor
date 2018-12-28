@@ -1,4 +1,5 @@
 #include <KGL/Widgets/QCodeEditorTextFinder.hpp>
+#include <KGL/Design/QCodeEditorSheets.hpp>
 
 #include <QScrollBar>
 
@@ -16,7 +17,9 @@ namespace kgl {
 
         m_FindDialog = new QDialog(parent);
         m_FindDialog->setWindowTitle("Find and replace");
-        m_FindDialog->resize(parent->design().textFinderSize());
+
+        m_SpacerWidget = new QWidget(parent);
+        parent->addScrollBarWidget(m_SpacerWidget, Qt::AlignBottom);
 
         m_ReplaceButton = new QPushButton("Replace");
         m_ReplaceAllButton = new QPushButton("Replace all");
@@ -54,9 +57,7 @@ namespace kgl {
         m_CurrentSelectionRemoved = false;
         m_FoundCount = 0;
 
-        QPalette palette;
-        palette.setColor(QPalette::Base, parent->design().textFinderBackColor());
-        setPalette(palette);
+        updateView();
 
         setEmbeded(true);
     }
@@ -84,13 +85,58 @@ namespace kgl {
             m_FindDialog->setLayout(layout());
         }
 
+        updateView();
+
         if (!hidden)
             show();
     }
 
+    ///
+    ///  @fn        isEmbeded
+    ///  @author    Mariusz Jaskolka
+    ///
     bool QCodeEditorTextFinder::isEmbeded()
     {
         return m_IsEmbeded;
+    }
+
+    ///
+    ///  @fn        updateDesign
+    ///  @author    Mariusz Jaskolka
+    ///
+    void QCodeEditorTextFinder::updateDesign()
+    {
+        QString sheet = QCodeEditorTextFinderSheets::sheet(m_Parent->design());
+        //---
+        setAutoFillBackground(true);
+        m_FindDialog->resize(m_Parent->design().textFinderSize());
+        //setAutoFillBackground(true);
+        m_FindNextButton->setFlat(true);
+        m_FindPrevButton->setFlat(true);
+        m_ReplaceButton->setFlat(true);
+        m_ReplaceAllButton->setFlat(true);
+        QPalette palette;
+        palette.setColor(QPalette::Base, m_Parent->design().textFinderBackColor());
+        palette.setColor(QPalette::Window, m_Parent->design().textFinderBackColor());
+        palette.setColor(QPalette::Button, m_Parent->design().textFinderBackColor());
+        palette.setColor(QPalette::Text, m_Parent->design().editorTextColor());
+        palette.setColor(QPalette::WindowText, m_Parent->design().editorTextColor());
+        palette.setColor(QPalette::ButtonText, m_Parent->design().editorTextColor());
+        palette.setColor(QPalette::BrightText, m_Parent->design().editorTextColor());
+        //setPalette(palette);
+        setStyleSheet(sheet);
+
+        //m_FindDialog->setPalette(palette);
+        //m_SpacerWidget->setPalette(palette);
+        m_FindDialog->setStyleSheet(sheet);
+        m_SpacerWidget->setStyleSheet(sheet);
+        QWidget* currentWidget = m_IsEmbeded ? this : static_cast<QWidget*>(m_FindDialog);
+        for (QWidget* w : currentWidget->findChildren<QWidget*>())
+        {
+            w->setStyleSheet(sheet);
+            //w->setPalette(palette);
+        }
+        updateView();
     }
 
     ///
@@ -112,6 +158,7 @@ namespace kgl {
         else
             m_FindDialog->setVisible(value);
 
+        updateView();
         m_TextToFind->setFocus();
         onTextToFindChanged(m_TextToFind->text());
     }
@@ -293,6 +340,14 @@ namespace kgl {
         } else {
             m_InfoLabel->setText("0/0");
         }
+    }
+
+    void QCodeEditorTextFinder::updateView()
+    {
+        bool spacerVisible = m_IsEmbeded && isVisible();
+        int h = spacerVisible * m_Parent->design().textFinderSize().height();
+        m_SpacerWidget->setFixedHeight(h);
+        m_SpacerWidget->setVisible(spacerVisible);
     }
 
 }

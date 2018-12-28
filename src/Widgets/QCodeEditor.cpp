@@ -168,17 +168,18 @@ namespace kgl {
     ///
     void QCodeEditor::setDesign(const QCodeEditorDesign &design) {
         m_Design = design;
-        setFont(design.editorFont());
+        //setFont(design.editorFont());
 
         // Modifies the palette of the underlying QPlainTextEdit
         QPalette palette;
         palette.setColor(QPalette::Base, design.editorBackColor());
         palette.setColor(QPalette::Text, design.editorTextColor());
-        setPalette(palette);
+        //setPalette(palette);
 
         // Modifies the border through a style-sheet
         setStyleSheet(QCodeEditorSheets::border(design));
         m_Highlighter->updateFormats();
+        m_TextFinder->updateDesign();
     }
 
     ///

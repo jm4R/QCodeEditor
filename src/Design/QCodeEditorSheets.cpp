@@ -96,4 +96,23 @@ namespace kgl {
         // Returns the modified sheet; can be applied immediately
         return sheet;
     }
+
+    ///
+    ///  @fn        press
+    ///  @author    Nicolas Kogler
+    ///  @date      October 6th, 2016
+    ///
+    QString QCodeEditorTextFinderSheets::sheet(const QCodeEditorDesign &design) {
+        QString sheet(CSS_TextFinder);
+        sheet.replace("%widget", QString::number(design.textFinderBackColor().rgba(), 16));
+        sheet.replace("%text", QString::number(design.editorTextColor().rgba(), 16));
+        qreal l = design.textFinderBackColor().lightnessF();
+        if (l>0.5)
+            sheet.replace("%activeWidget", QString::number(design.editorTextColor().darker(150).rgba(), 16));
+        else
+            sheet.replace("%activeWidget", QString::number(design.editorTextColor().lighter(150).rgba(), 16));
+
+        return sheet;
+    }
+
 }

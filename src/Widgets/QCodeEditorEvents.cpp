@@ -299,5 +299,10 @@ namespace kgl {
                                       content.width(),
                                       textFinderHeight);
         }
+        horizontalScrollBar()->setGeometry(content.right() -horizontalScrollBar()->width(),
+                                           content.top(),
+                                           horizontalScrollBar()->width(),
+                                           content.height() - textFinderHeight
+                                           );
     }
 }
