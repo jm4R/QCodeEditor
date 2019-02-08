@@ -48,6 +48,13 @@ namespace kgl {
         ///
         static QDialog *makeDialog(QCodeEditor *codeEditor);
 
+        ///
+        ///  @fn      setReplaceAsFocusProxy
+        ///  @brief   Allows choose if find or replace QLineEdit is this widgets focus proxy.
+        ///  @param   `true` to make replace, `false` to make find as the widgets focus proxy.
+        ///
+        void setReplaceAsFocusProxy(bool value);
+
     private slots:
 
         ///

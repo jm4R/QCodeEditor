@@ -45,6 +45,8 @@ QCodeEditorTextFinder::QCodeEditorTextFinder(QWidget* parent, QCodeEditor *codeE
         m_CurrentSelectionIdx = 0;
         m_CurrentSelectionRemoved = false;
         m_FoundCount = 0;
+
+        setReplaceAsFocusProxy(false);
     }
 
     ///
@@ -66,6 +68,16 @@ QCodeEditorTextFinder::QCodeEditorTextFinder(QWidget* parent, QCodeEditor *codeE
         dialog->layout()->addWidget(finder);
         connect(dialog, SIGNAL(rejected()), finder, SLOT(clearSelections()));
         return dialog;
+    }
+
+    ///
+    ///  @fn        makeDialog
+    ///  @author    Mariusz Jaskolka
+    ///
+    void QCodeEditorTextFinder::setReplaceAsFocusProxy(bool value)
+    {
+        QWidget* focusProxyWidget = value ? m_TextToReplace : m_TextToFind;
+        setFocusProxy(focusProxyWidget);
     }
 
     ///
