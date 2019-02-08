@@ -23,7 +23,7 @@ namespace kgl {
     ///  @author    Marek Bula
     ///  @date      February 16th, 2086
     ///  @class     QCodeEditorTextFinder
-    ///  @brief     Simple 'search and replace' dialog window.
+    ///  @brief     Simple 'search and replace' dialog widget.
     ///
     class KGL_API QCodeEditorTextFinder : public QWidget{
     Q_OBJECT
@@ -33,7 +33,7 @@ namespace kgl {
         ///  @fn    Constructor
         ///  @brief Initializes a new instance of QCodeEditorTextFinder.
         ///
-        QCodeEditorTextFinder(QCodeEditor *parent);
+        QCodeEditorTextFinder(QWidget *parent, QCodeEditor *codeEditor);
 
         ///
         ///  @fn    Destructor
@@ -42,10 +42,11 @@ namespace kgl {
         ~QCodeEditorTextFinder();
 
         ///
-        ///  @fn    show
-        ///  @brief Shows 'search and replace' dialog window.
+        ///  @fn      makeDialog : static
+        ///  @brief   Make dialog that wraps search and replace widget.
+        ///  @returns a pointer to a new dialog instance.
         ///
-        void show();
+        static QDialog *makeDialog(QCodeEditor *codeEditor);
 
     private slots:
 
@@ -121,8 +122,7 @@ namespace kgl {
         ///
         void updateInfoLabel();
 
-        QDialog* m_FindDialog;
-        QCodeEditor *m_Parent;
+        QCodeEditor *m_Editor;
         QGridLayout *m_DialogLayout;
         QPushButton *m_ReplaceButton;
         QPushButton *m_ReplaceAllButton;

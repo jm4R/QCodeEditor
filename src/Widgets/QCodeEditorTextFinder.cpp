@@ -6,25 +6,23 @@ namespace kgl {
     ///  @fn        Constructor
     ///  @author    Marek Bula
     ///
-    QCodeEditorTextFinder::QCodeEditorTextFinder(QCodeEditor *parent)
+QCodeEditorTextFinder::QCodeEditorTextFinder(QWidget* parent, QCodeEditor *codeEditor)
         : QWidget(parent),
-          m_Parent(parent)  {
+          m_Editor(codeEditor)  {
 
-        m_FindDialog = new QDialog(this);
-        m_FindDialog->setWindowTitle("Find and replace");
-        m_FindDialog->resize(550,100);
+        setMinimumWidth(400);
 
-        m_ReplaceButton = new QPushButton("Replace");
-        m_ReplaceAllButton = new QPushButton("Replace all");
-        m_FindLabel = new QLabel("Find:");
-        m_TextToFind = new QLineEdit();
-        m_ReplaceLabel = new QLabel("Replace with:");
-        m_TextToReplace = new QLineEdit();
-        m_InfoLabel = new QLabel("1/3 ");
-        m_FindNextButton = new QPushButton("Find next");
-        m_FindPrevButton = new QPushButton("Find prev");
+        m_ReplaceButton = new QPushButton("Replace", this);
+        m_ReplaceAllButton = new QPushButton("Replace all", this);
+        m_FindLabel = new QLabel("Find:", this);
+        m_TextToFind = new QLineEdit(this);
+        m_ReplaceLabel = new QLabel("Replace with:", this);
+        m_TextToReplace = new QLineEdit(this);
+        m_InfoLabel = new QLabel("0/0", this);
+        m_FindNextButton = new QPushButton("Find next", this);
+        m_FindPrevButton = new QPushButton("Find prev", this);
 
-        m_DialogLayout = new QGridLayout;
+        m_DialogLayout = new QGridLayout(this);
         m_DialogLayout->addWidget(m_FindLabel,0,0);
         m_DialogLayout->addWidget(m_TextToFind,0,1);
         m_DialogLayout->addWidget(m_TextToReplace,1,1);
@@ -34,12 +32,10 @@ namespace kgl {
         m_DialogLayout->addWidget(m_ReplaceLabel,1,0);
         m_DialogLayout->addWidget(m_ReplaceButton,1,2);
         m_DialogLayout->addWidget(m_ReplaceAllButton,1,3);
-        m_FindDialog->setLayout(m_DialogLayout);
 
         connect(m_TextToFind,SIGNAL(textChanged(const QString &)),this, SLOT(onTextToFindChanged(const QString &)));
         connect(m_FindNextButton,SIGNAL(pressed()),this,SLOT(findNext()));
         connect(m_FindPrevButton,SIGNAL(pressed()),this,SLOT(findPrev()));
-        connect(m_FindDialog, SIGNAL(rejected()),this,SLOT(clearSelections()));
         connect(m_TextToReplace,SIGNAL(textChanged(const QString &)),this, SLOT(onTextToReplaceChanged(const QString &)));
         connect(m_ReplaceButton,SIGNAL(pressed()),this,SLOT(replaceText()));
         connect(m_ReplaceAllButton,SIGNAL(pressed()),this,SLOT(replaceTextAll()));
@@ -56,16 +52,20 @@ namespace kgl {
     ///  @author    Marek Bula
     ///
     QCodeEditorTextFinder::~QCodeEditorTextFinder() {
-        delete m_FindDialog;
     }
 
     ///
-    ///  @fn        show
-    ///  @author    Marek Bula
+    ///  @fn        makeDialog
+    ///  @author    Mariusz Jaskolka
     ///
-    void QCodeEditorTextFinder::show() {
-        m_FindDialog->show();
-        onTextToFindChanged(m_TextToFind->text());
+    QDialog *QCodeEditorTextFinder::makeDialog(QCodeEditor *codeEditor)
+    {
+        QDialog *dialog = new QDialog(codeEditor);
+        dialog->setLayout(new QVBoxLayout());
+        QCodeEditorTextFinder *finder = new QCodeEditorTextFinder(dialog, codeEditor);
+        dialog->layout()->addWidget(finder);
+        connect(dialog, SIGNAL(rejected()), finder, SLOT(clearSelections()));
+        return dialog;
     }
 
     ///
@@ -85,7 +85,7 @@ namespace kgl {
     void QCodeEditorTextFinder::findText(QString text) {
         QColor highlightColor = Qt::gray;
 
-        int orgPos = m_Parent->textCursor().position();
+        int orgPos = m_Editor->textCursor().position();
         int pos = orgPos;
 
         bool wraped = false;
@@ -93,7 +93,7 @@ namespace kgl {
 
         m_FoundCount = 0;
 
-        QString code = m_Parent->toPlainText();
+        QString code = m_Editor->toPlainText();
         while (pos >=0 && !text.isEmpty() && !end) {
             pos = code.indexOf(text,pos); //-1 if not found
             if (wraped == true && (pos >= orgPos || pos < 0)){ //end of search
@@ -134,8 +134,8 @@ namespace kgl {
     ///  @author    Marek Bula
     ///
     void QCodeEditorTextFinder::replaceText(){
-        if (m_TextToReplace->text() != m_TextToFind->text() && !m_Parent->textCursor().selectedText().isEmpty()) {
-            m_Parent->textCursor().insertText(m_TextToReplace->text());
+        if (m_TextToReplace->text() != m_TextToFind->text() && !m_Editor->textCursor().selectedText().isEmpty()) {
+            m_Editor->textCursor().insertText(m_TextToReplace->text());
             m_Selections.removeAt(m_CurrentSelectionIdx);
             m_CurrentSelectionRemoved = true;
             m_FoundCount--;
@@ -148,10 +148,10 @@ namespace kgl {
     ///  @author    Marek Bula
     ///
     void QCodeEditorTextFinder::replaceTextAll() {
-        int val = m_Parent->verticalScrollBar()->value();
+        int val = m_Editor->verticalScrollBar()->value();
         if (m_TextToReplace->text() != m_TextToFind->text()) {
             for (int i = 0; i < m_FoundCount; i++) {
-                m_Parent->textCursor().insertText(m_TextToReplace->text());
+                m_Editor->textCursor().insertText(m_TextToReplace->text());
                 findNext();
             }
 
@@ -159,7 +159,7 @@ namespace kgl {
             findText(m_TextToFind->text());
             updateInfoLabel();
         }
-        m_Parent->verticalScrollBar()->setValue(val);
+        m_Editor->verticalScrollBar()->setValue(val);
     }
 
     ///
@@ -167,7 +167,7 @@ namespace kgl {
     ///  @author    Marek Bula
     ///
     void QCodeEditorTextFinder::highlightText(int begin, int end, QColor color) {
-        QTextCursor cursor = m_Parent->textCursor();
+        QTextCursor cursor = m_Editor->textCursor();
         cursor.setPosition(begin);
         cursor.setPosition(end,QTextCursor::KeepAnchor);
 
@@ -183,12 +183,12 @@ namespace kgl {
     ///  @author    Marek Bula
     ///
     void QCodeEditorTextFinder::clearSelections() {
-        QTextCursor cursor = m_Parent->textCursor();
+        QTextCursor cursor = m_Editor->textCursor();
         cursor.clearSelection();
-        m_Parent->setTextCursor(cursor);
+        m_Editor->setTextCursor(cursor);
 
         m_Selections.clear();
-        m_Parent->setExtraSelections(m_Selections);
+        m_Editor->setExtraSelections(m_Selections);
     }
 
     ///
@@ -197,9 +197,9 @@ namespace kgl {
     ///
     void QCodeEditorTextFinder::updateCurrentSelection() {
         if (!m_Selections.isEmpty()) {
-            m_Parent->setTextCursor(m_Selections[m_CurrentSelectionIdx].cursor);
+            m_Editor->setTextCursor(m_Selections[m_CurrentSelectionIdx].cursor);
         }
-        m_Parent->setExtraSelections(m_Selections);
+        m_Editor->setExtraSelections(m_Selections);
     }
 
     ///

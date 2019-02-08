@@ -322,7 +322,7 @@ namespace kgl {
         QSortFilterProxyModel *m_RuleFilter;    ///< Filters all the keywords, funcs, ...
         QCompleter *m_AutoComplete;             ///< Auto completion widget
         qint32 m_CompletionTrigger;             ///< Amount of characters till AC trigger
-        QCodeEditorTextFinder *m_TextFinder;    ///< Find and replace text widget
+        QDialog *m_TextFinder;                  ///< Find and replace text widget
 
         // Allow the line widget to access vars/funcs while rendering
         friend class QCodeEditorLineWidget;
