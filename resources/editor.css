@@ -1,0 +1,6 @@
+QPlainTextEdit {
+  border-top: %tpx solid #%c;
+  border-right: %rpx solid #%c;
+  border-bottom: %bpx solid #%c;
+  border-left: %lpx solid #%c;
+}
