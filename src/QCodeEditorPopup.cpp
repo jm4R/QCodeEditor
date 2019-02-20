@@ -55,16 +55,17 @@ bool QCodeEditorPopup::viewportEvent(QEvent *event)
 
 bool QCodeEditorPopup::event(QEvent* event)
 {
-    if (event->type() == QEvent::ParentChange) {
-        // missing nullptr check intended; widget not for use without QCodeEditor
-        auto parent = static_cast<QCodeEditor*>(parentWidget());
-        _styleSheetNormal = QCodeEditorPopupStyleSheets::hover(parent->design());
-        _styleSheetPress  = QCodeEditorPopupStyleSheets::press(parent->design());
+    if (event->type() == QEvent::ParentChange && parentWidget() != nullptr) {
+        auto codeEditor = static_cast<QCodeEditor*>(parentWidget());
+        if (codeEditor != nullptr) {
+            _styleSheetNormal = QCodeEditorPopupStyleSheets::hover(codeEditor->design());
+            _styleSheetPress  = QCodeEditorPopupStyleSheets::press(codeEditor->design());
 
-        setFixedWidth(parent->design().popupSize().width());
-        setFixedHeight(parent->design().popupSize().height());
-        setStyleSheet(_styleSheetNormal);
-        setFont(parent->design().intelliBoxFont());
+            setFixedWidth(codeEditor->design().popupSize().width());
+            setFixedHeight(codeEditor->design().popupSize().height());
+            setStyleSheet(_styleSheetNormal);
+            setFont(codeEditor->design().intelliBoxFont());
+        }
     }
 
     return QListView::event(event);

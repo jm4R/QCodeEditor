@@ -23,7 +23,9 @@
 
 
 QString QCodeEditorStyleSheets::border(const QCodeEditorDesign &design) {
-    auto sheet = QString(QFile(":/editor.css").readAll());
+    QFile file(":/editor.css");
+    file.open(QIODevice::ReadOnly);
+    auto sheet = QString(file.readAll());
 
     const auto& border = design.editorBorder();
     sheet.replace("%t", QString::number(border.top()));
@@ -36,7 +38,9 @@ QString QCodeEditorStyleSheets::border(const QCodeEditorDesign &design) {
 }
 
 QString QCodeEditorPopupStyleSheets::hover(const QCodeEditorDesign &design) {
-    auto sheet = QString(QFile(":/popup.css").readAll());
+    QFile file(":/popup.css");
+    file.open(QIODevice::ReadOnly);
+    auto sheet = QString(file.readAll());
 
     sheet.replace("%border", QString::number(design.intelliBoxBorderColor().rgba(), 16));
     sheet.replace("%back", QString::number(design.intelliBoxBackColor().rgba(), 16));
@@ -53,7 +57,9 @@ QString QCodeEditorPopupStyleSheets::hover(const QCodeEditorDesign &design) {
 }
 
 QString QCodeEditorPopupStyleSheets::press(const QCodeEditorDesign &design) {
-    auto sheet = QString(QFile(":/popup.css").readAll());
+    QFile file(":/popup.css");
+    file.open(QIODevice::ReadOnly);
+    auto sheet = QString(file.readAll());
 
     sheet.replace("%border", QString::number(design.intelliBoxBorderColor().rgba(), 16));
     sheet.replace("%back", QString::number(design.intelliBoxBackColor().rgba(), 16));

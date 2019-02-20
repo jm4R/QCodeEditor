@@ -31,7 +31,7 @@ set(QCODEEDITOR_VERSION "${QCODEEDITOR_VERSION_MAJOR}.${QCODEEDITOR_VERSION_MINO
 set(QCODEEDITOR_VERSION_FULL "${QCODEEDITOR_VERSION}.${QCODEEDITOR_VERSION_PATCH}")
 
 option(QCODEEDITOR_BUILD_SHARED "Build as shared library" ON)
-#option(QCODEEDITOR_BUILD_EXAMPLES "Build the examples" OFF)
+option(QCODEEDITOR_BUILD_EXAMPLES "Build the examples" ON)
 #option(QCODEEDITOR_BUILD_DOCS "Build the documentation" OFF)
 
 if (QCODEEDITOR_BUILD_SHARED AND UNIX)
@@ -39,7 +39,7 @@ if (QCODEEDITOR_BUILD_SHARED AND UNIX)
     set(QCODEEDITOR_LIBRARY qcodeeditor)
 else()
     # windows needs static library names. We use the major version as suffix
-    # since we want to keep QOffice binary compatible within each major version.
+    # since we want to keep QCodeEditor binary compatible within each major version.
     set(QCODEEDITOR_LIBRARY qcodeeditor${QCODEEDITOR_VERSION_MAJOR})
 endif()
 
@@ -66,9 +66,9 @@ endif()
 
 add_subdirectory(src)
 
-#if (QCODEEDITOR_BUILD_EXAMPLES)
-#    add_subdirectory(examples)
-#endif()
+if (QCODEEDITOR_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 #if (QCODEEDITOR_BUILD_DOCS)
 #    add_subdirectory(docs)

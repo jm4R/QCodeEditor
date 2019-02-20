@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<rules>
+    <rule id="function" global="false">
+        <regex>^\s*def(?=\s+\w+\s*\(\):)</regex>
+        <forecolor>red</forecolor>
+        <font>
+            <bold>true</bold>
+        </font>
+    </rule>
+    <rule id="class" global="false">
+        <regex>^\s*class(?=\s+\w+\s*(\(\w*\))?:)</regex>
+        <forecolor>red</forecolor>
+        <font>
+            <bold>true</bold>
+        </font>
+    </rule>
+    <rule id="keywords" global="true">
+        <keywords start="false">pass for if elif else while return</keywords>
+        <forecolor>red</forecolor>
+        <font>
+            <bold>true</bold>
+        </font>
+    </rule>
+    <rule id="import">
+        <regex>^\s*import(?=\s+\w+)</regex>
+        <forecolor>red</forecolor>
+        <font>
+            <bold>true</bold>
+        </font>
+    </rule>
+    <rule id="from-import">
+        <regex>^\s*from\s+(?&lt;from&gt;\w+)\s+import\s+(?&lt;module&gt;\w+)</regex>
+    </rule>
+</rules>
