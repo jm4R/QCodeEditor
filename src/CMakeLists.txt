@@ -21,15 +21,15 @@
 ]]
 
 set(SOURCES
-    QCodeEditor.cpp
-    QCodeEditorDesign.cpp
-    QCodeEditorHighlighter.cpp
-    QCodeEditorLineWidget.cpp
-    QCodeEditorPopup.cpp
-    QCodeEditorStyleSheets.cpp
-    QCodeEditorTextFinder.cpp
-    QSyntaxRule.cpp
-    XmlHelper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorDesign.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorHighlighter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorLineWidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorPopup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorStyleSheets.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorTextFinder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QSyntaxRule.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/XmlHelper.cpp
 )
 
 set(HEADERS
@@ -41,8 +41,8 @@ set(HEADERS
     ${QCODEEDITOR_INCLUDE_ROOT}/QCodeEditor/QCodeEditorPopup.hpp
     ${QCODEEDITOR_INCLUDE_ROOT}/QCodeEditor/QCodeEditorTextFinder.hpp
     ${QCODEEDITOR_INCLUDE_ROOT}/QCodeEditor/QSyntaxRule.hpp
-    QCodeEditorStyleSheets.hpp
-    XmlHelper.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QCodeEditorStyleSheets.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/XmlHelper.hpp
 )
 
 qt5_add_resources(RESOURCES ${QCODEEDITOR_RESOURCE_ROOT}/resources.qrc)

@@ -43,8 +43,8 @@ else()
     set(QCODEEDITOR_LIBRARY qcodeeditor${QCODEEDITOR_VERSION_MAJOR})
 endif()
 
-set(QCODEEDITOR_INCLUDE_ROOT ${CMAKE_SOURCE_DIR}/include)
-set(QCODEEDITOR_RESOURCE_ROOT ${CMAKE_SOURCE_DIR}/resources)
+set(QCODEEDITOR_INCLUDE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(QCODEEDITOR_RESOURCE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/resources)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -64,12 +64,12 @@ else()
     set(QCODEEDITOR_LIBRARY_TYPE STATIC)
 endif()
 
-add_subdirectory(src)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 if (QCODEEDITOR_BUILD_EXAMPLES)
-    add_subdirectory(examples)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples)
 endif()
 
 #if (QCODEEDITOR_BUILD_DOCS)
-#    add_subdirectory(docs)
+#    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/docs)
 #endif()
